@@ -1,3 +1,5 @@
+
+
 // MPU-6050 Accelerometer + Gyro
 // -----------------------------
 //
@@ -778,10 +780,13 @@ void calibrate_sensors() {
   //Serial.println("Finishing Calibration");
 }
 
-  #define trickPin1 7
+  #define trickPin1 9
   #define trickPin2 8
-  #define trickPin3 9
+  #define trickPin3 7
   #define buzzer 10
+  #define bit0 3
+  #define bit1 4
+  #define bit2 5
   int trick=0;
   int x1 = 0;
   int y1 = 0;
@@ -802,6 +807,10 @@ void setup()
   pinMode(trickPin2, OUTPUT);
   pinMode(trickPin3, OUTPUT);
   pinMode(buzzer, OUTPUT);
+  pinMode(bit0, OUTPUT);
+  pinMode(bit1, OUTPUT);
+  pinMode(bit2, OUTPUT);
+  
   Serial.begin(115200);
   /*
   Serial.println(F("InvenSense MPU-6050"));
@@ -1056,33 +1065,62 @@ void loop()
   
 // Serial.print("x1: ");
 // Serial.print(x1);
-// Serial.print("  x2: ");
-// Serial.println(x2);
-// 
-// Serial.print("y1: ");
+// Serial.print("  y1: ");
 // Serial.print(y1);
-// Serial.print("  y2: ");
-// Serial.println(y2);
+// Serial.print("  z1: ");
+// Serial.println(z1);
 // 
-// Serial.print("z1: ");
-// Serial.print(z1);
+// Serial.print("x2: ");
+// Serial.print(x2);
+// Serial.print("  y2: ");
+// Serial.print(y2);
 // Serial.print("  z2: ");
-// Serial.println(z2); 
+// Serial.println(z2);
+// 
+// Serial.print("x3: ");
+// Serial.print(x3);
+// Serial.print("  y3: ");
+// Serial.print(y3);
+// Serial.print("  z3: ");
+// Serial.println(z3); 
 
-  int sensingThreshold = 7;
+  int sensingThreshold12 = 25;
+  int sensingThreshold23 = 15;
  
-  int diffX = abs(x1) - abs(x2);
-  int diffY = abs(y1) - abs(y2);
-  int diffZ = abs(z1) - abs(z2);
+  int diffX12 = abs(x1) - abs(x2);
+  int diffY12 = abs(y1) - abs(y2);
+  int diffZ12 = abs(z1) - abs(z2);
 
-//just printing out sensor 3 for now
-  if (abs(diffX) < sensingThreshold && abs(diffY) < sensingThreshold && abs(diffZ) < sensingThreshold) {
+  int diffX23 = abs(x2) - abs(x3);
+  int diffY23 = abs(y2) - abs(y3);
+  int diffZ23 = abs(z2) - abs(z3);
+
+    Serial.print("diffX12: ");
+    Serial.println(diffX12);
+    Serial.print("diffY12: ");
+    Serial.println(diffY12);
+    Serial.print("diffZ12: ");
+    Serial.println(diffZ12);
+    Serial.print("diffX23: ");
+    Serial.println(diffX23);
+    Serial.print("diffY23: ");
+    Serial.println(diffY23);
+    Serial.print("diffZ23: ");
+    Serial.println(diffZ23);
+    
+  if (abs(diffX12) < sensingThreshold12 && abs(diffY12) < sensingThreshold12 && abs(diffZ12) < sensingThreshold12 &&
+   abs(diffX23) < sensingThreshold23 && abs(diffY23) < sensingThreshold23 && abs(diffZ23) < sensingThreshold23) {
     Serial.println("on the same line....");
-    Serial.println("sensor 3: ");
-    Serial.println(x3);
-    Serial.println(y3);
-    Serial.println(z3);
+    digitalWrite(bit0, LOW);
+    digitalWrite(bit1, LOW);
   } else {
+    if(diffZ12 < 0){
+        digitalWrite(bit0, HIGH);
+        digitalWrite(bit1, LOW);
+      } else {
+        digitalWrite(bit0, LOW);
+        digitalWrite(bit1, HIGH);  
+      }
     Serial.println("NOT on the same line");
     tone(buzzer, 600, 200);
   }
@@ -1172,7 +1210,7 @@ void loop()
   
    
   // Delay so we don't swamp the serial port
-  delay(100);
+  delay(1000);
   //Serial.write(10);
 }
 
