@@ -811,7 +811,7 @@ void setup()
   pinMode(bit1, OUTPUT);
   pinMode(bit2, OUTPUT);
   
-  Serial.begin(115200);
+  Serial.begin(9600);
   /*
   Serial.println(F("InvenSense MPU-6050"));
   Serial.println(F("June 2012"));
@@ -1095,34 +1095,31 @@ void loop()
   int diffY23 = abs(y2) - abs(y3);
   int diffZ23 = abs(z2) - abs(z3);
 
-    Serial.print("diffX12: ");
-    Serial.println(diffX12);
-    Serial.print("diffY12: ");
-    Serial.println(diffY12);
-    Serial.print("diffZ12: ");
-    Serial.println(diffZ12);
-    Serial.print("diffX23: ");
-    Serial.println(diffX23);
-    Serial.print("diffY23: ");
-    Serial.println(diffY23);
-    Serial.print("diffZ23: ");
-    Serial.println(diffZ23);
+//    Serial.print("diffX12: ");
+//    Serial.println(diffX12);
+//    Serial.print("diffY12: ");
+//    Serial.println(diffY12);
+//    Serial.print("diffZ12: ");
+//    Serial.println(diffZ12);
+//    Serial.print("diffX23: ");
+//    Serial.println(diffX23);
+//    Serial.print("diffY23: ");
+//    Serial.println(diffY23);
+//    Serial.print("diffZ23: ");
+//    Serial.println(diffZ23);
     
   if (abs(diffX12) < sensingThreshold12 && abs(diffY12) < sensingThreshold12 && abs(diffZ12) < sensingThreshold12 &&
    abs(diffX23) < sensingThreshold23 && abs(diffY23) < sensingThreshold23 && abs(diffZ23) < sensingThreshold23) {
-    Serial.println("on the same line....");
-    digitalWrite(bit0, LOW);
-    digitalWrite(bit1, LOW);
+    Serial.print(0);
   } else {
     if(diffZ12 < 0){
-        digitalWrite(bit0, HIGH);
-        digitalWrite(bit1, LOW);
+        Serial.print(1);
+        tone(buzzer, 300, 200);
       } else {
-        digitalWrite(bit0, LOW);
-        digitalWrite(bit1, HIGH);  
+        Serial.print(2);
+        tone(buzzer, 600, 200);
       }
-    Serial.println("NOT on the same line");
-    tone(buzzer, 600, 200);
+    
   }
 
     trick = trick + 1;
@@ -1139,8 +1136,6 @@ void loop()
 //  Serial.println(diffZ);
   
 
-
- Serial.println();
 
 // int sizeOfArr = 10;
 // bool inMotion = false;
@@ -1210,7 +1205,7 @@ void loop()
   
    
   // Delay so we don't swamp the serial port
-  delay(1000);
+  delay(300);
   //Serial.write(10);
 }
 
