@@ -3,4 +3,4 @@
 
 # Overview
 FORMLY can be used in sports like deadlift, yoga, push-ups, etc. The first application is designed to monitor the back form of deadlift practicers to prevent lower back injury, the most common injury among deadlift starters.
-![alt text](https://github.com/sherrychen1120/liftvest/FORMLY_intro.png)
+![alt text](https://github.com/sherrychen1120/liftvest/blob/master/FORMLY_intro.png)
