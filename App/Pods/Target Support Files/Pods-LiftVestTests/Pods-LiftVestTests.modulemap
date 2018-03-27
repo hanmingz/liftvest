@@ -1,0 +1,6 @@
+framework module Pods_LiftVestTests {
+  umbrella header "Pods-LiftVestTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
